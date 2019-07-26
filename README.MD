@@ -45,8 +45,9 @@ This is the page to demonstration some of the key functions in this tool. User w
  11. Remove project from calendar
  12. Change week/ view week
 
- **Demo add project** <br/>
- ![image](https://user-images.githubusercontent.com/19805677/61925378-abacd600-af31-11e9-8ea3-a8efac107cec.png) <br/>
+ **Demo add project:** <br/><br/>
+![gifhome_1230x175](https://user-images.githubusercontent.com/19805677/61925513-4a393700-af32-11e9-8a6b-fc3dd42dd5b6.gif)
+<br/><br/>
  **Demo start, stop, reset time** <br/>
  **Demo change orders of existing projects** <br/>
  **Demo change the background color of a project** <br/>
