@@ -45,14 +45,16 @@ This is the page to demonstration some of the key functions in this tool. User w
  11. Remove project from calendar
  12. Change week/ view week
 
- **Demo add project:** <br/><br/>
-![gifhome_1230x175](https://user-images.githubusercontent.com/19805677/61925513-4a393700-af32-11e9-8a6b-fc3dd42dd5b6.gif)
-<br/><br/>
+ **Demo add project:** <br/>
  **Demo start, stop, reset time** <br/>
  **Demo change orders of existing projects** <br/>
  **Demo change the background color of a project** <br/>
  **Demo draw and drop project into calendar** <br/>
  **Demo remove project from calendar** <br/>
+
+![gifhome_1240x908_10s](https://user-images.githubusercontent.com/19805677/61926656-1d3b5300-af37-11e9-856c-d2fbd29aeea6.gif)
+![gifhome_1240x908_10s (1)](https://user-images.githubusercontent.com/19805677/61926696-51167880-af37-11e9-84f9-393aa7b7ab98.gif)
+
 
 ## Authors
 Mai He [https://github.com/mablic/time_manager]
