@@ -1,0 +1,65 @@
+{% block content %}
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand js-scroll-trigger" href="#page-top">TIME MANAGER</a>
+	<div class="collapse navbar-collapse">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		</ul>
+		<div class="navbar-nav my-2 my-lg-0" style="padding-right: 100px;">
+			<a class="nav-link" href="{% url 'main:homepage' %}">Home <span class="sr-only">(current)</span></a>
+			{% if user.is_authenticated %}
+				<a class="nav-link" href="{% url 'main:dashboard' %}">Dashboard</a>
+			{% else %}
+				<a class="nav-link" href="{% url 'main:demo' %}">Demo</a>
+			{% endif %}
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Profile
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					{% if user.is_authenticated %}
+						<a class="dropdown-item" href="#">My Profile</a>
+						<a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a>
+					{% else %}
+						<a class="dropdown-item" href="{% url 'main:login' %}">Sign in</a>
+						<a class="dropdown-item" href="{% url 'main:register' %}">Register</a>
+					{% endif %}
+				</div>
+			</li>
+			<li>&nbsp&nbsp&nbsp&nbsp&nbsp</li>
+		</div>
+<!-- 		<form class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-info" type="submit">Google</button>
+		</form> -->
+	</div>
+</nav>
+
+<!-- <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      	<a class="navbar-brand js-scroll-trigger" href="#page-top">TIME MANAGER</a>
+      	<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        	Menu
+        	<i class="fas fa-bars"></i>
+  		</button>
+  		<div class="collapse navbar-collapse" id="navbarResponsive">
+    		<ul class="navbar-nav ml-auto">
+      			<li class="nav-item mx-0 mx-lg-1">
+        			<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a>
+      			</li>
+      			<li class="nav-item mx-0 mx-lg-1">
+        			<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'main:demo' %}">Demo</a>
+      			</li>
+      			<li class="nav-item mx-0 mx-lg-1">
+        			<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
+      			</li>
+      			<li class="nav-item mx-0 mx-lg-1">
+        			<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
+      			</li>
+    		</ul>
+  		</div>
+    </div>
+</nav> -->
+
+{% endblock content %}

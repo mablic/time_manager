@@ -1,0 +1,168 @@
+{% load static %}
+
+<style>
+    .bootstrap-timepicker-widget.dropdown-menu {
+        z-index: 1050!important;
+    }
+</style>
+
+<div class="modal-header">
+  <h5 class="modal-title">New Project</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div>
+            <table style="width:100%">
+                <tr align="center">
+                    <td>Start</td>
+                    <td>
+                        <input class="form-control input-small" id="date_picker_start" type="text" required>
+                    </td>
+                    <td>
+                        <input class="form-control input-small" id="time_picker_start" type="time" required>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>End</td>
+                    <td>
+                        <input class="form-control input-small" id="date_picker_end" type="text" required></td>
+                    <td>
+                        <input class="form-control input-small" id="time_picker_end" type="time" required>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Project Name</label>
+            <input type="text" class="form-control" id="project_name">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="col-form-label">Note</label>
+            <textarea class="form-control" id="note_text"></textarea>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+  <button type="button" class="btn btn-primary" onclick="send_project()">Send Time</button>
+</div>
+
+
+<script type="text/javascript">
+    $('#date_picker_start, #date_picker_end, #date_picker_delete_start, #date_picker_delete_end').datepicker({
+        format: "mm/dd/yyyy",
+        showWeek: true,
+        firstDay: 1,
+        todayHighlight: true,
+    })
+
+    $('#submitModal').on('shown.bs.modal', function () {
+        var projectID = $('#submitModal').attr('project_parent');
+        var timeParent = $('#submitModal').attr('time_parent');
+        var currWeek = $('#date_period');
+        var currWeekText = currWeek.text();
+        var projectItem = $('#' + projectID);
+        var timeItem = $('#' + timeParent);
+
+        var currItem = timeItem.attr("id");
+        currItem = currItem.substring(10,);
+
+        // this is for the hours
+        var currHour = parseInt(currItem / 7) + 1;
+        var nextHour = currHour + 1;
+        if (currHour < 10) currHour = "0" + currHour;
+        if (nextHour < 10) nextHour = "0" + nextHour; 
+
+        $('#time_picker_start').val(currHour + ":00");
+        $('#time_picker_end').val(nextHour + ":00");
+
+        var projectName = projectItem.find('tr');
+        var modalItem = $('#project_name');
+        modalItem.val(projectName[0].innerText);
+
+        if (currWeekText != 'For the Period'){ // if user selects week data to display
+            var e = currWeekText.indexOf('to');
+            var startWeek = currWeekText.substring(15, e-1);
+            var startWeekDay = new Date(startWeek);
+            var currDate = parseInt(currItem % 7) == 0 ? 6 : parseInt(currItem % 7) - 1;
+            startWeekDay = (startWeekDay.getMonth() + 1) + "/" + (startWeekDay.getDate() 
+                + currDate) + "/" + startWeekDay.getFullYear();
+            $('#date_picker_start').val(startWeekDay);
+            $('#date_picker_end').val(startWeekDay);
+        }
+    });
+
+    function send_project(){
+        var projectID = $('#submitModal').attr('project_parent');
+        var timeParent = $('#submitModal').attr('time_parent');
+        var projectItem = $('#' + projectID);
+
+        var projectColor = projectItem.css('background');
+        var e = projectColor.indexOf('none');
+        var colorCode = projectColor.substring(0, e-1);
+        change_background(timeParent, colorCode);
+
+        var calendarCol = $('#' + timeParent);
+        var projectList = calendarCol.attr('data-original-title');
+        var projectName = projectItem.find('tr');
+
+        if (projectList == undefined || projectList.length == 0){
+            projectList = projectName[0].innerText;
+        }else{
+            projectList += ", " + projectName[0].innerText;
+        }
+        calendarCol.attr('onclick', 'read_calendar_projects(this)');
+        calendarCol.attr('data-original-title', projectList);
+        $('#submitModal').modal('hide');
+    };
+
+    function read_calendar_projects(calendarCol){
+        // console.log(calendarCol);
+        // console.log($(calendarCol).attr('data-original-title'));
+        var projectList = $(calendarCol).attr('data-original-title');
+        var calendarID = $(calendarCol).attr('id');
+        var projectArray = projectList.split(",");
+        var modalItem = $('#deleteModal');
+        var modalDeleteItem = $('#delete_modal_body');
+        for (i=0; i<projectArray.length;i++){
+            if (i > 0){
+                var tempModal = $('#delete_modal_table_0');
+                var copyModal = tempModal.clone(true);
+                copyModal.attr('id', 'delete_modal_table_' + i);
+                modalDeleteItem.append(copyModal);
+            }
+            var currModalItem = $('#delete_modal_table_' + i);
+            currModalItem.show();
+            var deleteModal = currModalItem.find('button');
+            var currProject = currModalItem.find('input');
+            deleteModal.attr('parent', i);
+            deleteModal.attr('calendar', calendarID);
+            deleteModal.attr('onclick', 'delete_modal_project(this)');
+            currProject[0].value = projectArray[i];
+        }
+        $('#deleteModal').modal('show');
+    };
+
+    function delete_modal_project(curr){
+        var currProject = $(curr);
+        var parent = currProject.attr('parent');
+        var calendar = currProject.attr('calendar');
+        currProject = $('#delete_modal_table_' + parent);
+        remove_background(calendar, parent);
+        if (parent == 0){
+            currProject.hide();
+        }else{
+            currProject.remove();
+        }
+        var projectList = $('#' + calendar).attr('data-original-title').split(',');
+        projectList.splice(parent, 1);
+        projectList = projectList.join();
+        $('#' + calendar).attr('data-original-title', projectList);
+    };
+</script>
+<!-- <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script type="text/javascript"     src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> -->

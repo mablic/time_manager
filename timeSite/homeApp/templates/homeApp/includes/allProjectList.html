@@ -1,0 +1,189 @@
+{% load static %}
+
+<!-- <script src="{% static 'homeApp/js/sortable.js' %}"></script>
+<script src="{% static 'homeApp/js/support.js' %}"></script> -->
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+        </button>
+    </div>
+</div>
+
+<div id="send_data_form" action="{% url 'main:dashboard' %}">
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>
+                    <input id= "input_field" class="form-control" type="text" placeholder="Add Item" aria-label="Search" name="item">
+                </th>
+                <th>
+                    <button id="new_project_button" class="btn btn-outline-info" type="submit">
+                        Add
+                    </button>
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
+<br>
+<div id="project_temp_div" style="display: none;padding: 5px;">
+    <div class="close">
+        <small>
+            <sup>
+                <a id="temp_delete" onclick="delete_project(this)" href="#0">x</a>
+            </sup>
+        </small>
+    </div>
+    <table>
+        <tbody>
+            <tr>
+                <th>x</th>
+            </tr>
+            <tr>
+                <td><div id="project_temp_display">00:00:00</div></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-outline-info">Start</button>
+    <button class="btn btn-outline-info">Reset</button>
+    <button class="btn btn-outline-info" onclick="submit_project(this)">Submit</button>
+</div>
+<div id="all_project" class="card border-1" style="width: 17rem;border-color: #b3d7ff;">
+    <div id="project_list" class="card-body">
+        {% if all_items %}
+            {% for things in all_items %}
+                <div id="project_item_div_{{ forloop.counter0 }}" style="padding: 5px;"> 
+                    <div class="close">
+                        <small>
+                            <sup>
+                                <!--item_delete_{{ forloop.counter0 }}-->
+                                <a parent="project_item_div_{{ forloop.counter0 }}" onclick="delete_project(this)" value="{{things.id}}" href="#0">x</a>
+                            </sup>
+                        </small>
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>{{ things.item }}</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div id = "item_display_{{ forloop.counter0 }}">
+                                        00:00:00
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-outline-info" id="item_start_stop_{{ forloop.counter0 }}"
+                        onclick="item_start_stop_('{{forloop.counter0}}')">Start</button>
+                    <button class="btn btn-outline-info" id="item_reset_{{ forloop.counter0 }}"
+                        onclick="item_reset_('{{forloop.counter0}}')">Reset</button>
+                    <button class="btn btn-outline-info" id="item_submit_{{ forloop.counter0 }}"
+                        value = "{{things.id}}" onclick="submit_project(this)"
+                        parent = "{{ forloop.counter0 }}">Submit</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!-- </body> -->
+
+<script>
+    $(document).ready(function(){
+        var $myForm = $("#send_data_form");
+        var PROJECT_COUNT = $('#project_list>div').length;
+        var projectButton = $('#new_project_button');
+        var projectList = $('#project_list');
+        var projectInput = document.getElementById('input_field');
+        var tempProject = document.getElementById("project_temp_div");
+        $myForm.submit(function(event) {
+            event.preventDefault();
+            var cln = tempProject.cloneNode(true);
+            projectList.append(cln);
+
+            var currProject = projectList.find('#project_temp_div');
+            // tempProject = currProject[currProject.length-3]; // last 3 div is the project div
+            currProject[0].style = "padding: 5px;"; // reset the style of current project
+            currProject[0].id = "project_item_div_" + PROJECT_COUNT;
+
+            var newTr = currProject.find("tr");
+            newTr[0].innerHTML = "<th>" + projectInput.value + "</th>"// add project
+
+            var tempDisplay = currProject.find('div'); // last 2 div is the time div
+            tempDisplay[1].id = "item_display_" + PROJECT_COUNT;
+
+            var deleteButton = projectList.find('#temp_delete');
+            deleteButton[0].id =  "item_delete_" + PROJECT_COUNT;
+            deleteButton = $('#item_delete_' + PROJECT_COUNT);
+            deleteButton.attr('parent', 'project_item_div_' + PROJECT_COUNT);
+            // console.log('test1');
+
+            var currButton = projectList.find("button");
+            var tempButton = currButton[currButton.length-3];
+            tempButton.id = "item_start_stop_" + PROJECT_COUNT;
+            tempButton = currButton[currButton.length-2];
+            tempButton.id = "item_reset_" + PROJECT_COUNT;
+            tempButton = currButton[currButton.length-1];
+            tempButton.id = "item_submit_" + PROJECT_COUNT;
+
+            tempButton = $("#item_start_stop_" + PROJECT_COUNT);    // onclick function setup
+            tempButton.attr("onclick", "item_start_stop_('" + PROJECT_COUNT + "')");            
+            tempButton = $("#item_reset_" + PROJECT_COUNT);
+            tempButton.attr("onclick", "item_reset_('" + PROJECT_COUNT + "')");
+
+            tempButton = $("#item_submit_" + PROJECT_COUNT);
+            tempButton.attr("parent",  PROJECT_COUNT);
+
+            var $thisURL = $myForm.attr('action');
+            $.ajax({
+                type: 'post',
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                url: $thisURL,
+                data: { 'item' : projectInput.value },
+            }).done(function(result) {
+                var deleteButton = $('#item_delete_' + (PROJECT_COUNT-1));
+                deleteButton.attr('value', result["ID"])
+                var submitButton = $('#item_submit_' + (PROJECT_COUNT-1));
+                submitButton.attr('value', result["ID"])
+            });
+            PROJECT_COUNT++;
+        });
+    });
+    function delete_project(ret){
+        var $thisURL = {% url 'main:dashboard' %};
+        $.ajax({
+            type: 'get',
+            data: {'delete': $(ret).attr('value')},
+            url: $thisURL,
+        }).done(function(result) {
+            // console.log($(ret).attr('parent'));
+            var parentID = $(ret).attr('parent');
+            document.getElementById(parentID).remove();
+        });
+    };
+    function submit_project(ret){
+        var $thisURL = {% url 'main:dashboard' %};
+        var parentID = $(ret).attr('parent');
+        var totalTime = document.getElementById("item_display_" + parentID).innerText;
+        // console.log(totalTime);
+        $.ajax({
+            type: 'post',
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            data: {'submit': $(ret).attr('value'), 'value': totalTime},
+            url: $thisURL,
+        }).done(function(result) {
+            item_reset_(parentID);
+        });
+    };
+    Sortable.create(project_list, { /* options */ });
+</script>

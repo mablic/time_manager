@@ -1,0 +1,249 @@
+{% extends "homeApp/home.html" %}
+{% block content %}
+{% load static %}
+
+
+<style>
+    .left_bar {
+        width: 160px;
+        position: fixed;
+        padding-top: 20px;
+        padding-left: 20px;
+    }
+    .right_bar {
+        padding-left: 320px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+    table.tr.th {
+        font-family: sans-serif;
+    }
+</style>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="margin-right: 20px" id="date_selector">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <div>
+            <input id="date_picker" type="text">
+        </div>
+    </div>
+</div>
+
+<div style="width: 100%">
+    <div class="left_bar">
+        <div id="send_data_form" action="{% url 'main:demo' %}">
+            <form method="POST" style="width: 280px;">
+                {% csrf_token %}
+                <table style="word-break: break-word;">
+                    <tr>
+                        <th>
+                            <input id= "input_field" class="form-control" type="text" placeholder="Add Item" aria-label="Search" name="item">
+                        </th>
+                        <th>
+                            <button id="new_project_button" class="btn btn-outline-info" type="submit">
+                                Add
+                            </button>
+                        </th>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div id="project_temp_div" style="display: none;padding: 1px;">
+            <div class="close">
+                <small>
+                    <sup>
+                        <a id="temp_delete" onclick="delete_project(this)" href="#0">x</a>
+                    </sup>
+                </small>
+            </div>
+            <table style="word-break: break-word;">
+                <tbody>
+                    <tr>
+                        <th>x</th>
+                    </tr>
+                    <tr>
+                        <td><div id="project_temp_display">00:00:00</div></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-outline-info btn-sm" onclick="change_color(this)">Color</button>
+            <button class="btn btn-outline-info btn-sm">Start</button>
+            <button class="btn btn-outline-info btn-sm">Reset</button>
+            <button class="btn btn-outline-info btn-sm" onclick="submit_project(this)">Submit</button>
+            <input type="color" id="temp_id" parent="temp_parent" style="display: none;">
+        </div>
+        <div id="all_project" class="card border-1" style="width: 17rem; border: none;">
+            <div id="project_list" class="card-body" style="padding: 0.2rem;">
+                {% if all_items %}
+                    {% for things in all_items %}
+                        <div id="project_item_div_{{ forloop.counter0 }}" style="padding: 1px;">
+                            <!-- <div id="draggable"> -->
+                            <div class="close">
+                                <small>
+                                    <sup>
+                                        <!--item_delete_{{ forloop.counter0 }}-->
+                                        <a parent="project_item_div_{{ forloop.counter0 }}" onclick="delete_project(this)" value="{{things.id}}" href="#0">x</a>
+                                    </sup>
+                                </small>
+                            </div>
+                            <table style="word-break: break-word;">
+                                <tbody>
+                                    <tr>
+                                        <th>{{ things.item }}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id = "item_display_{{ forloop.counter0 }}">
+                                                00:00:00
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-outline-info btn-sm" id="item_change_color_{{forloop.counter0}}" parent="{{forloop.counter0}}" onclick="change_color(this)">Color</button>
+                            <button 
+                            class="btn btn-outline-info btn-sm" id="item_start_stop_{{ forloop.counter0 }}"
+                                onclick="item_start_stop_('{{forloop.counter0}}')">Start</button>
+                            <button 
+                            class="btn btn-outline-info btn-sm" id="item_reset_{{ forloop.counter0 }}"
+                                onclick="item_reset_('{{forloop.counter0}}')">Reset</button>
+                            <button 
+                            class="btn btn-outline-info btn-sm" id="item_submit_{{ forloop.counter0 }}"
+                                value = "{{things.id}}" onclick="submit_project(this)"
+                                parent = "{{ forloop.counter0 }}">Submit</button>
+                            <input type="color" id="color_input_{{ forloop.counter0 }}" parent="{{ forloop.counter0 }}" style="display: none;">
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="right_bar">
+        {% include "homeApp/calendar.html" %}
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var $myForm = $("#send_data_form");
+        var projectButton = $('#new_project_button');
+        var projectList = $('#project_list');
+        var projectInput = document.getElementById('input_field');
+        var tempProject = document.getElementById("project_temp_div");
+        $('#date_picker').datepicker({
+            format: "mm/dd/yyyy",
+            showOn: "button",
+            buttonImage: "{% static 'homeApp/images/calendar.gif' %}",
+            // buttonImage: "images/calendar.gif",
+            buttonImageOnly: true,
+            buttonText: "Select date",
+            showWeek: true,
+            firstDay: 1,
+            todayHighlight: true,
+        });
+        $myForm.submit(function(event) {
+            var PROJECT_COUNT = $('#project_list>div').length;
+            event.preventDefault();
+            var cln = tempProject.cloneNode(true);
+            projectList.append(cln);
+
+            var currProject = projectList.find('#project_temp_div');
+            // tempProject = currProject[currProject.length-3]; // last 3 div is the project div
+            currProject[0].style = "padding: 5px;"; // reset the style of current project
+            currProject[0].id = "project_item_div_" + PROJECT_COUNT;
+
+            var newTr = currProject.find("tr");
+            newTr[0].innerHTML = "<th>" + projectInput.value + "</th>"// add project
+
+            var tempDisplay = currProject.find('div'); // last 2 div is the time div
+            tempDisplay[1].id = "item_display_" + PROJECT_COUNT;
+
+            var deleteButton = currProject.find('#temp_delete');
+            deleteButton[0].id =  "item_delete_" + PROJECT_COUNT;
+            deleteButton = $('#item_delete_' + PROJECT_COUNT);
+            deleteButton.attr('parent', 'project_item_div_' + PROJECT_COUNT);
+
+            var currButton = currProject.find("button");
+            var tempButton = currButton[0];
+            tempButton.id = "item_change_color_" + PROJECT_COUNT;
+            tempButton.setAttribute("parent", PROJECT_COUNT);
+
+            tempButton = currButton[1];
+            tempButton.id = "item_start_stop_" + PROJECT_COUNT;
+            tempButton = currButton[2];
+            tempButton.id = "item_reset_" + PROJECT_COUNT;
+            tempButton = currButton[3];
+            tempButton.id = "item_submit_" + PROJECT_COUNT;
+
+            tempButton = $("#item_start_stop_" + PROJECT_COUNT);    // onclick function setup
+            tempButton.attr("onclick", "item_start_stop_('" + PROJECT_COUNT + "')");            
+            tempButton = $("#item_reset_" + PROJECT_COUNT);
+            tempButton.attr("onclick", "item_reset_('" + PROJECT_COUNT + "')");
+
+            tempButton = $("#item_submit_" + PROJECT_COUNT);
+            tempButton.attr("parent",  PROJECT_COUNT);
+
+            var colorInput = currProject.find('input');
+            colorInput.attr("id", "color_input_" + PROJECT_COUNT);
+            colorInput.attr("parent", PROJECT_COUNT);
+
+            var $thisURL = $myForm.attr('action');
+            $.ajax({
+                type: 'post',
+                headers: { "X-CSRFToken": '{{csrf_token}}' },
+                url: $thisURL,
+                data: { 'item' : projectInput.value },
+            }).done(function(result) {
+                var deleteButton = $('#item_delete_' + (PROJECT_COUNT-1));
+                deleteButton.attr('value', result["ID"])
+                var submitButton = $('#item_submit_' + (PROJECT_COUNT-1));
+                submitButton.attr('value', result["ID"])
+            });
+            PROJECT_COUNT++;
+        });
+    });
+    $('#project_list').sortable({
+        revert:true
+    });
+    function change_color(projectID){
+        var retID = $(projectID).attr('parent');
+        $('#color_input_' + retID).click();
+        jQuery('#color_input_' + retID).on('change', function(){
+           $('#project_item_div_' + retID).css("background-color", jQuery(this).val());
+        });
+    };
+    function delete_project(ret){
+        var $thisURL = {% url 'main:demo' %};
+        $.ajax({
+            type: 'get',
+            data: {'delete': $(ret).attr('value')},
+            url: $thisURL,
+        }).done(function(result) {
+            // console.log($(ret).attr('parent'));
+            var parentID = $(ret).attr('parent');
+            document.getElementById(parentID).remove();
+        });
+    };
+    function submit_project(ret){
+        var $thisURL = {% url 'main:demo' %};
+        var parentID = $(ret).attr('parent');
+        var totalTime = document.getElementById("item_display_" + parentID).innerText;
+        // console.log(totalTime);
+        $.ajax({
+            type: 'post',
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            data: {'submit': $(ret).attr('value'), 'value': totalTime},
+            url: $thisURL,
+        }).done(function(result) {
+            item_reset_(parentID);
+        });
+    };
+
+</script>
+
+{% endblock content %}

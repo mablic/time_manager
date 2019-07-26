@@ -1,0 +1,1042 @@
+{% load static %}
+<!-- <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"> -->
+<style type="text/css">
+
+    table.calendar {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        empty-cells: show;
+        outline-style: double;
+    }
+
+    table.calendar th{
+        position: sticky;
+        top: 0;        
+    }
+
+    div.calendar td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+        -webkit-column-width: 100px; /* Chrome, Safari, Opera */
+        -moz-column-width: 100px; /* Firefox */  
+        column-width: 100px;
+    }
+    tr:nth-child(even) {
+      /*background-color: #dddddd;*/
+    }
+    div.calendar th {
+        /*border: 1px solid #dddddd;*/
+        background: #e9ecef;
+        text-align: center;
+        padding: 8px;
+        height: 100px;
+    }
+    div.calendar_head p {
+        text-align: center;
+        font-weight: bold;
+        font-size: 130%;
+        font-family: "Times New Roman", Times, serif;
+    }
+</style>
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" project_parent="" time_parent="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {% include "homeApp/submitTime.html" %}
+        </div>
+    </div>
+</div>
+
+<!-- delete modeal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Project lists</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="delete_modal_body">
+                <div id="delete_modal_table_0">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:90%">
+                                <input class="form-control input-small" type="text" required value="Project 1">
+                                </input>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-info btn-sm">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <td>
+                                <input class="form-control input-small" onclick="date_delete_picker(this)" 
+                                type="text" required>
+                            </td>
+                            <td>
+                                <input class="form-control input-small" onclick="date_delete_picker(this)" 
+                                type="text" required>    
+                            </td>
+                            <td>
+                                <input class="form-control input-small" type="time" required>
+                            </td>
+                            <td>
+                                <input class="form-control input-small" type="time" required>
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="outline-style: double;">
+    <div class="calendar_head">
+        <p>Task Manager</p>
+        <p id="date_period">For the Period</p>
+        <button id="pre_week" class="btn btn-outline-info" style="margin-left: 15px;">Previous Week</button>
+        <button id="next_week" class="btn btn-outline-info" style="float: right; margin-right: 15px;">Next Week</button>
+    </div>
+
+    <div class="calendar">
+        <table class="calendar" id="calendar_date">
+            <tr >
+                <th>
+                    
+                </th>
+                <th>
+                    Monday
+                </th>
+                <th>
+                    Tuesday
+                </th>
+                <th>
+                    Wednesday
+                </th>
+                <th>
+                    Thursday
+                </th>
+                <th>
+                    Friday
+                </th>
+                <th>
+                    Saturday
+                </th>
+                <th>
+                    Sunday
+                </th>
+            </tr>
+            <div class="ui-widget-header">
+                <tr>
+                    <td>
+                        01:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        02:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        03:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        04:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        05:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        06:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        07:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        08:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        09:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        10:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        11:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        12:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        13:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        14:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        15:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        16:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        17:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        18:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        19:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        20:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        21:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        22:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        23:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        00:00
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                    <td data-original-title="" data-container="body"
+                        data-toggle="tooltip" data-placement="top" title="">
+                        &nbsp;
+                    </td>
+                </tr>
+            </div>
+        </table>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var allTD = $('table.calendar td');
+        var cnt = 1;
+        for (i=0; i<allTD.length;i++){
+            if (i % 8 != 0){
+                allTD[i].id = "droppable_" + cnt;
+                $('#droppable_' + cnt).css("padding", 0);
+                $("#droppable_" + cnt).droppable({
+                    classes: {
+                        "ui-droppable-hover": "ui-state-hover"
+                    },
+                    drop: function( event, ui ) {
+                        pop_up_submit_window(this.id, ui.draggable.attr('id'));
+                    }
+                })
+                cnt++;
+            }
+        }
+
+        $('#date_picker').change(function(){
+            var currentDate = $('#date_picker').datepicker('getDate');
+            change_date(currentDate);
+        })
+        $('#pre_week').on('click', function(){
+            var currentDate = $('#date_picker').datepicker('getDate');
+            if (currentDate!=null){
+                var first = currentDate.getDate();
+                first -= 7;
+                var firstday = new Date(currentDate.setDate(first));
+                $('#date_picker').datepicker('setDate', firstday);
+                change_date(firstday);
+            }
+        })
+        $('#next_week').on('click', function(){
+            var currentDate = $('#date_picker').datepicker('getDate');
+            if (currentDate!=null){
+                var first = currentDate.getDate();
+                first += 7;
+                var firstday = new Date(currentDate.setDate(first));
+                $('#date_picker').datepicker('setDate', firstday);
+                change_date(firstday);
+            }
+        })
+        $('#deleteModal').on('hidden.bs.modal', function () {
+            var modelList = $('#deleteModal').find('.modal-body');
+            var allDiv = modelList.find('div');
+            for (i=1; i<allDiv.length; i++){
+                $('#delete_modal_table_' + i).remove();
+            }
+        })
+
+        function pop_up_submit_window(timeID, projectID) {
+            // window.open('/');
+            $('#submitModal').attr('project_parent', projectID)
+            $('#submitModal').attr('time_parent', timeID);
+            $('#submitModal').modal('show');
+        }
+
+        function change_date(currentDate){
+            var first = currentDate.getDate() - currentDate.getDay() + 1;
+            var last = first + 6;
+            var firstday = new Date(currentDate.setDate(first));
+            var lastday = new Date(currentDate.setDate(last));
+            firstday =(firstday.getMonth() + 1) + '/' + firstday.getDate() + '/' +  firstday.getFullYear();
+            lastday =(lastday.getMonth() + 1) + '/' + lastday.getDate() + '/' +  lastday.getFullYear();
+            if (currentDate != null){
+                var date_period = $('#date_period');
+                date_period[0].innerText = "For the period " + firstday + " to " + lastday;
+            }
+            var allDates = $('table.calendar th');
+            allDates.each(function(index, value){
+                if (index > 0){
+                    var curr = first + index - 1;
+                    var currDate = new Date(currentDate.setDate(curr));
+                    currDate =(currDate.getMonth() + 1) + '/' + currDate.getDate() + '/' +  currDate.getFullYear();
+                    // console.log(currDate);
+                    var tmpString = this.innerText.split("\n")[0];
+                    this.innerHTML = tmpString + "<br/>" + currDate;
+                }
+            })       
+        };
+
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+    })
+
+</script>
+
