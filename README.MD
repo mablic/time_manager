@@ -45,12 +45,12 @@ This is the page to demonstration some of the key functions in this tool. User w
  11. Remove project from calendar
  12. Change week/ view week
 
- **Demo add project** 
- **Demo start, stop, reset time** 
- **Demo change orders of existing projects**
- **Demo change the background color of a project** 
- **Demo draw and drop project into calendar**
- **Demo remove project from calendar**   
+ **Demo add project** <br/>
+ **Demo start, stop, reset time** <br/>
+ **Demo change orders of existing projects** <br/>
+ **Demo change the background color of a project** <br/>
+ **Demo draw and drop project into calendar** <br/>
+ **Demo remove project from calendar** <br/>
 
 ## Authors
 Mai He [https://github.com/mablic/time_manager]
