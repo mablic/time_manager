@@ -59,6 +59,9 @@ This is the page to demonstration some of the key functions in this tool. User w
 ![gifhome_1240x908_10s (4)](https://user-images.githubusercontent.com/19805677/61926847-ff222280-af37-11e9-84e3-47182e6257e0.gif)
 ![gifhome_1240x908_10s (5)](https://user-images.githubusercontent.com/19805677/61926945-5e803280-af38-11e9-98eb-ae869a04959a.gif)
 ![gifhome_1240x908_10s (6)](https://user-images.githubusercontent.com/19805677/61926991-925b5800-af38-11e9-9935-acd0614bfce0.gif)
+![gifhome_1240x908_7s](https://user-images.githubusercontent.com/19805677/61927212-88862480-af39-11e9-9a10-672f635ed57a.gif)
+![gifhome_1240x908_10s (8)](https://user-images.githubusercontent.com/19805677/61927144-465ce300-af39-11e9-943c-36f803bbabee.gif)
+
 
 ## Authors
 Mai He [https://github.com/mablic/time_manager]
