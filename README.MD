@@ -45,12 +45,22 @@ This is the page to demonstration some of the key functions in this tool. User w
  11. Remove project from calendar
  12. Change week/ view week
 
- **Demo add project** 
- **Demo start, stop, reset time** 
- **Demo change orders of existing projects**
- **Demo change the background color of a project** 
- **Demo draw and drop project into calendar**
- **Demo remove project from calendar**   
+ **Demo add project:** <br/>
+ **Demo start, stop, reset time** <br/>
+ **Demo change orders of existing projects** <br/>
+ **Demo change the background color of a project** <br/>
+ **Demo draw and drop project into calendar** <br/>
+ **Demo remove project from calendar** <br/>
+
+![gifhome_1240x908_10s](https://user-images.githubusercontent.com/19805677/61926656-1d3b5300-af37-11e9-856c-d2fbd29aeea6.gif)
+![gifhome_1240x908_10s (1)](https://user-images.githubusercontent.com/19805677/61926696-51167880-af37-11e9-84f9-393aa7b7ab98.gif)
+![gifhome_1240x908_10s (3)](https://user-images.githubusercontent.com/19805677/61926825-e0239080-af37-11e9-8a5a-ef8c67bb363d.gif)
+![gifhome_1240x908_10s (4)](https://user-images.githubusercontent.com/19805677/61926847-ff222280-af37-11e9-84e3-47182e6257e0.gif)
+![gifhome_1240x908_10s (5)](https://user-images.githubusercontent.com/19805677/61926945-5e803280-af38-11e9-98eb-ae869a04959a.gif)
+![gifhome_1240x908_10s (6)](https://user-images.githubusercontent.com/19805677/61926991-925b5800-af38-11e9-9935-acd0614bfce0.gif)
+![gifhome_1240x908_7s](https://user-images.githubusercontent.com/19805677/61927212-88862480-af39-11e9-9a10-672f635ed57a.gif)
+![gifhome_1240x908_10s (8)](https://user-images.githubusercontent.com/19805677/61927144-465ce300-af39-11e9-943c-36f803bbabee.gif)
+
 
 ## Authors
 Mai He [https://github.com/mablic/time_manager]
