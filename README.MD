@@ -12,7 +12,8 @@ This is an web base app based on python django, html and javascript. It allows u
 
 **Development phase**
 
- - Front page (In development)
+ - Front page (completed)
+ - Contact me (In development)
  - Demo page (Completed)
  - Production page (In development)
  - User login/logout (Completed)
@@ -51,7 +52,8 @@ This is the page to demonstration some of the key functions in this tool. User w
  **Demo change the background color of a project** <br/>
  **Demo draw and drop project into calendar** <br/>
  **Demo remove project from calendar** <br/>
-
+ 
+![gifhome_1232x908_10s](https://user-images.githubusercontent.com/19805677/62184271-eb553280-b322-11e9-80aa-7a629cff3503.gif)
 ![gifhome_1240x908_10s](https://user-images.githubusercontent.com/19805677/61926656-1d3b5300-af37-11e9-856c-d2fbd29aeea6.gif)
 ![gifhome_1240x908_10s (1)](https://user-images.githubusercontent.com/19805677/61926696-51167880-af37-11e9-84f9-393aa7b7ab98.gif)
 ![gifhome_1240x908_10s (3)](https://user-images.githubusercontent.com/19805677/61926825-e0239080-af37-11e9-8a5a-ef8c67bb363d.gif)
