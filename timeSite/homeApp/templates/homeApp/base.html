@@ -18,13 +18,13 @@
 		<title>Time Manager</title>
 		<style>
 			.footer {
-			 position:fixed;
-			 left:0px;
-			 bottom:0px;
-			 height:20px;
-			 width:100%;
-			 background:#e1e1e1;
+			  	padding-top: 5rem;
+			  	padding-bottom: 5rem;
+			  	background-color: #2c3e50;
+			  	color: #fff;
 			}
+
+
 		</style>
 	</head>
 	<body>
@@ -32,14 +32,37 @@
 
 		{% block content %}
 		{% endblock %}
-		<footer class="footer">
-			<div class="container">
-				<p class="text-muted">For more info, please email mablic@hotmail.com</p>
-			</div>
-		</footer>
 
+	  	<!-- Footer -->
+	  	<footer class="footer text-center">
+		    <div class="container">
+		      	<div class="row">
+			        <!-- Footer Location -->
+			        <div class="col-lg-4 mb-5 mb-lg-0">
+			          	<h4 class="text-uppercase mb-4">Email</h4>
+			          	<p class="lead mb-0">mablic@hotmail.com</p>
+			        </div>
 
-		<!-- Optional JavaScript -->
+			        <!-- Footer Social Icons -->
+			        <div class="col-lg-4 mb-5 mb-lg-0">
+			          	<h4 class="text-uppercase mb-4">Home</h4>
+			          	<a class="btn btn-outline-light btn-social mx-1" href="{% url 'main:homepage' %}">
+			            	<i class="fab fa-fw fa-dribbble"></i>
+			          	</a>
+			        </div>
+
+			        <!-- Footer About Text -->
+			        <div class="col-lg-4">
+			          	<h4 class="text-uppercase mb-4">About Me</h4>
+			          	<p class="lead mb-0">Check out my
+			            <a href="https://github.com/mablic">Github</a>.</p>
+			        </div>
+
+		      	</div>
+		    </div>
+	  	</footer>
+
+			<!-- Optional JavaScript -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	</body>

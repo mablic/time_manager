@@ -1,27 +1,193 @@
 {% extends "homeApp/base.html" %}
 {% load static %}
 {% block content %}
-<br>
-<div class="container">
-    <div class="row vertical-center">
-        <div class="card" style="width: 30rem;">
-            <img src="{% static 'homeApp/images/calendar.gif' %}" class="card-img-top" alt="#">
-            <img src="#" class="card-img-top" alt="#">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="{% static 'homeApp/images/calendar.gif' %}" class="btn btn-primary">Go somewhere</a>
+
+<style type="text/css">
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @media (min-width: 576px) {
+      .container {
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .container {
+        max-width: 960px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1140px;
+        }
+    }
+
+    .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    
+</style>
+
+<!-- Masthead -->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column" style="width: 30%">
+        <!-- Masthead Avatar Image -->
+        <br><br><br>
+        <img class="masthead-avatar mb-5" src="{%static 'homeApp/images/header.JPG' %}" alt="">
+        <!-- '{%static 'homeApp/img/avataaars.svg' %}' -->
+        <!-- Masthead Heading -->
+        <h1 class="masthead-heading text-uppercase mb-0">Time Manager</h1>
+
+        <!-- Icon Divider -->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
             </div>
+            <div class="divider-custom-line"></div>
         </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+
+        <!-- Masthead Subheading -->
+        <p class="masthead-subheading font-weight-light mb-0">Easy way to check your time</p>
+        <div class="row" style="padding: 20px;">
+            <button onclick="sign_up_function()" type="button" class="btn btn-outline-light btn-lg">Sign up</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button onclick="github_function()" type="button" class="btn btn-outline-light btn-lg">Git Hub</button>
+        </div>
+    </div>
+</header>
+<br><br>
+<!-- Portfolio Grid Items -->
+
+<section class="page-section portfolio" id="portfolio">
+    <div class="container">
+        <!-- Portfolio Section Heading -->
+        <h2 class="text-center">Portfolio</h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-4">
+                <div id='portfolio1'>
+                    <img class="img-fluid" src="{%static 'homeApp/img/portfolio/cabin.png' %}" alt="">
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div id='portfolio2'>
+                    <img class="img-fluid" src="{%static 'homeApp/img/portfolio/cake.png' %}" alt="">
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div id='portfolio3'>
+                    <img class="img-fluid" src="{%static 'homeApp/img/portfolio/circus.png' %}" alt="">
                 </div>
             </div>
         </div>
     </div>
+</section>
+<br>
+
+<div id="portfolioNote1" style="display: none;">
+    <header style="text-align: center;">Easy</header>
+    <p style="word-wrap: break-word;padding: 5px;">Time manager provides easy solution for personal or cooperation uses. It allows user to have full control of their daily exerices, allow they to customize their day as needed.</p>
 </div>
+<div id="portfolioNote2" style="display: none;">
+    <header style="text-align: center;">Automate</header>
+    <p style="word-wrap: break-word;padding: 5px;">Time manager automate your daily exercise by having your every day data storaged on our secure database, you can always look back what you did for the day!</p>
+</div>
+<div id="portfolioNote3" style="display: none;">
+    <header style="text-align: center;">Free</header>
+    <p style="word-wrap: break-word;padding: 5px;">Time manager is a free application that you can use on daily basis. Relax, we wouldn't charge you until i broke!</p>
+</div>
+
+<script type="text/javascript">
+    function sign_up_function() {
+        window.open("{% url 'main:register' %}");
+    }
+    function github_function() {
+        window.open("https://github.com/mablic");
+    }
+    $(document).ready(function(){
+        var state1 = true;
+        $('#portfolio1').click(function (e) {
+            if (state1){
+                $('#portfolio1').animate({
+                  backgroundColor: "#aa0000",
+                  color: "#fff",
+                  height: 400
+                }, 1000 );
+                var tmp = $('#portfolioNote1').clone();
+                tmp.css('display','inline');
+                $('#portfolio1').append(tmp);
+            }else{
+                $( "#portfolio1" ).animate({
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  height: 350
+                }, 1000 );
+                var tmp = $( "#portfolio1" ).find('#portfolioNote1');
+                tmp.remove();
+            }
+            state1 = !state1;
+        })
+        var state2 = true;
+        $('#portfolio2').click(function (e) {
+            if (state2){
+                $('#portfolio2').animate({
+                  backgroundColor: "#aa0000",
+                  color: "#fff",
+                  height: 400
+                }, 1000 );
+                var tmp = $('#portfolioNote2').clone();
+                tmp.css('display','inline');
+                $('#portfolio2').append(tmp);
+            }else{
+                $( "#portfolio2" ).animate({
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  height: 350
+                }, 1000 );
+                var tmp = $( "#portfolio2" ).find('#portfolioNote2');
+                tmp.remove();
+            }
+            state2 = !state2;
+        })
+        var state3 = true;
+        $('#portfolio3').click(function (e) {
+            if (state3){
+                $('#portfolio3').animate({
+                  backgroundColor: "#aa0000",
+                  color: "#fff",
+                  height: 400
+                }, 1000 );
+                var tmp = $('#portfolioNote3').clone();
+                tmp.css('display','inline');
+                $('#portfolio3').append(tmp);
+            }else{
+                $( "#portfolio3" ).animate({
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  height: 350
+                }, 1000 );
+                var tmp = $( "#portfolio3" ).find('#portfolioNote3');
+                tmp.remove();
+            }
+            state3 = !state3;
+        })
+    })
+</script>>
 {% endblock content %}
