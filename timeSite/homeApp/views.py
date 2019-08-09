@@ -16,6 +16,9 @@ def homepage(request):
 def calendar(request):
 	return render(request, 'homeApp/calendar.html')
 
+def contact(request):
+	return render(request, 'homeApp/contact.html')
+
 def dashboard(request):
 	L = List.objects.filter(curr_user_id=request.user.id)
 	if request.method == 'POST':
@@ -43,7 +46,7 @@ def dashboard(request):
 			if form.is_valid():
 				instance = form.save(commit=False)
 				instance.entry_user = request.user
-				print(request.POST.get('submit'))
+				# print(request.POST.get('submit'))
 				instance.entry_project = List.objects.get(pk=request.POST.get('submit'))
 				instance.save()
 				data = {
