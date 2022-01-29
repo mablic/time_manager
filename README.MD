@@ -1,5 +1,4 @@
 # Time Manager
-# www.myselfmanage.com
 
 **Description**
 This is an web base app based on python django, html and javascript. It allows user to track their daily hours with dynamic entries, custom color cards, start/ stop tracking their time and submit these entries to database.
